@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Movie DB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        #search {
+            width:70%;
+            display:inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+    <h1>Movie DB Search</h1>
+    <form id="search-form" action="" method="">
+        <input type="text" class="form-control" id="search" placeholder="Search..."/>
+        <button type="submit" class="btn btn-primary" id="submit">Search</button>
+    </form>
+    <div id="main" class="container-fluid">
+        <span id="search-info">Showing 0 of 0 result(s)</span>
+        <div id="results" class="container-fluid">
+            <div class="movie">
+                <img />
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        function dbCallback(dbResults) {
+            console.log(dbResults);
+        }
+    </script>
+    <script src="https://api.themoviedb.org/3/search/movie?api_key=9b9c6d7d187bb3245215a1983f9db910&query=Jack+Reacher&callbck=dbCallback"></script>
+</body>
+</html>
