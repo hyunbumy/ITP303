@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Regular Expressions</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+	<style>
+		.valid {
+			color: #0A0;
+		}
+		.invalid {
+			color: #D00;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container-fluid">
+		<div class="row">
+			<h1 class="col-12 mt-3">Regular Expressions</h1>
+			<h2 class="col-12 mt-3">Sample Text</h2>
+			<div id="sample-str" class="col-12">
+				When University of Southern California first opened its doors to 53 students and 10 teachers in 1880, the city still lacked paved streets, electric lights, telephones and a reliable fire alarm system. Today, University of Southern California is home to more than 41,000 students and nearly 3,800 full-time faculty, and is located in the heart of one of the biggest metropolises in the world.
+				A simpler example with special characters !@#$%^&*()-=_+ and numbers 123-456_890+234a. Some words: book, hook, hem, heel, heed, sheep, feed, color, colour.
+			</div>
+		</div> <!-- .row -->
+
+		<div class="row">
+			<h2 class="col-12 mt-5">String Formatting</h2>
+
+			<div class="col-12 mt-3">
+				<div class="mb-3">Acceptable formats: 1234567890, (123) 456-7890, 123-456-7890</div>
+				Phone:
+				<input type="text" id="phone">
+				<button id="phone-validate">Validate</button>
+				<button id="phone-format">Format</button>
+				<div id="phoneMsg" class="font-italic mt-2 ml-3"></div>
+			</div>
+
+			<div class="col-12 mt-3">
+				Email:
+				<input type="text" id="email">
+				<button id="email-validate">Validate</button>
+				<div id="emailMsg" class="font-italic mt-2 ml-3"></div>
+			</div>
+		</div> <!-- .row -->
+
+	</div> <!-- .container-fluid -->
+
+	<script>
+		var regExObj;
+
+		// Literal way
+		regExObj = /mypattern/;
+
+		// Constructor Function syntax
+		regExObj = new RegExp("mypattern");
+
+		var pattern = "mypattern";
+
+		// Use the variable as pattern
+		regExObj = new RegExp(pattern);
+		// this is not valid
+		//regExObj = /pattern/;
+
+		// Get the string
+		var text = document.querySelector("#sample-str").innerHTML;
+		console.log(text);
+
+		// This is for finding one instance of this pattern
+		//regExObj = /\d/;
+
+		regExObj = /\d/g;	// As many as you find from the whole string
+
+		console.log( regExObj.test(text) );
+
+		// .replace() is a string method
+		console.log( text.replace(regExObj, "#")  );
+
+		console.log( text );
+
+
+		// Phone Validation
+
+		document.querySelector("#phone-validate").onclick = function() {
+
+			// Get what user typed in
+			var phoneInput = document.querySelector("#phone").value.trim();
+
+			// Set up the regex
+			//var phoneRegEx = /^\d{10}$/;
+			// var phoneRegEx = /^(\d{10}|\d{3}-\d{3}-\d{4}|\(\d{3}\)\s\d{3}-\d{4})$/;
+			// var phoneRegEx = /^(\d{10}|\d{3}-\d{3}-\d{4}|\(\d{3}\)\s\d{3}-\d{4})$/;
+			var phoneRegEx = /^(\d{10}|\d{3}-\d{3}-\d{4}|\(\d{3}\)\s\d{3}-\d{4})$/;
+
+			// Validate
+			if( phoneRegEx.test( phoneInput ) == true ) {
+				// whatever you'd like to display if the user's input passed my regex text
+				document.querySelector("#phoneMsg").innerHTML = "Valid Phone Number :)";
+			}
+			else {
+				document.querySelector("#phoneMsg").innerHTML = "Invalid Phone Number :(";
+			}
+		}
+
+			// Email validation - which we did not complete in class
+			document.querySelector('#email-validate').onclick = function(){
+				var email = document.querySelector('#email').value;
+
+				// Basic format - letters than @ sign then either net, com or edu
+				var emailRegExp = /\w+@\w+\.(net|com|edu)/;
+				// Make it a little more foolproof with extra letters before the @
+				var emailRegExp = /\w{3,}@\w+\.(net|com|edu)/;
+
+				// Here's a vetted, much better solution. It works 99.9% of the time
+				var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+				if ( emailRegExp.test(email) ) {
+					// valid
+					document.querySelector('#emailMsg').innerHTML = 'Valid Email';
+				} else {
+					// invalid
+					document.querySelector('#emailMsg').innerHTML = 'Invalid Email';
+				}
+			}
+		document.querySelector("#phone-format").onclick = function() {
+			var phoneInput = document.querySelector("#phone").value;
+
+			// .replace() - replaces any string with whatever you want
+			var regExPattern = /\D/g;	// Get everythng that is NOT  digit (D cap)
+			phoneInput.replace(regExPattern, '');
+
+			// Format using our own format
+			console.log(phoneInput.substr(0,2));		// From index 0 get 2 characters (length)
+
+			var formatted = "(" + phoneInput.substr(0,3) +") " + phoneInput.substr(3,3,) + "-" + phoneInput.substr(6);
+			document.querySelector("#phone").value = formatted;
+		}
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>

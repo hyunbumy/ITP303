@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS Calculator</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+	<style>
+		#display {
+			font-size: 2em;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1 class="col-12 text-center mt-5">JS Calculator</h1>
+		</div> <!-- .row -->
+		<div class="row">
+			<div id="calculator" class="mt-4 col-12 col-md-6 ml-md-auto mr-md-auto col-lg-4">
+				<div class="row">
+					<input type="text" id="display" class="col-12 text-right form-control" value="OFF" disabled>
+				</div> <!-- .row -->
+				<div class="row">
+					<button id="onoff" class="col-6 btn btn-lg btn-outline-dark">ON / OFF</button>
+					<button id="ac" class="col-6 btn btn-lg btn-outline-dark">AC</button>
+				</div> <!-- .row -->
+				<div class="row">
+					<button class="col-3 btn btn-lg btn-outline-dark num">7</button>
+					<button class="col-3 btn btn-lg btn-outline-dark num">8</button>
+					<button class="col-3 btn btn-lg btn-outline-dark num">9</button>
+					<button class="col-3 btn btn-lg btn-outline-dark op">/</button>
+				</div> <!-- .row -->
+				<div class="row">
+					<button class="col-3 btn btn-lg btn-outline-dark num">4</button>
+					<button class="col-3 btn btn-lg btn-outline-dark num">5</button>
+					<button class="col-3 btn btn-lg btn-outline-dark num">6</button>
+					<button class="col-3 btn btn-lg btn-outline-dark op">x</button>
+				</div> <!-- .row -->
+				<div class="row">
+					<button class="col-3 btn btn-lg btn-outline-dark num">1</button>
+					<button class="col-3 btn btn-lg btn-outline-dark num">2</button>
+					<button class="col-3 btn btn-lg btn-outline-dark num">3</button>
+					<button class="col-3 btn btn-lg btn-outline-dark op">-</button>
+				</div> <!-- .row -->
+				<div class="row">
+					<button class="col-3 btn btn-lg btn-outline-dark num">0</button>
+					<button id="dot" class="col-3 btn btn-lg btn-outline-dark">.</button>
+					<button class="col-3 btn btn-lg btn-outline-dark op">=</button>
+					<button class="col-3 btn btn-lg btn-outline-dark op">+</button>
+				</div> <!-- .row -->
+			</div> <!-- #calculator -->
+		</div> <!-- .row -->
+	</div> <!-- .container -->
+
+    <script>
+        function calculate(curr, value, operation) {
+            switch(operation) {
+                // Multiplication
+                case "x":
+                    value *= curr;
+                    break;
+
+                // Division
+                case "/":
+                    value /= curr;
+                    break;
+
+                // Addition
+                case "+":
+                    value += curr;
+                    break;
+
+                // Subtraction
+                case "-":
+                    value -= curr;
+                    break;
+
+                default:
+                    value = curr;
+                    break;
+            }
+            return value;
+        }
+
+        var display = document.querySelector("#display");
+        var isOn = false;
+        var valueRaw = "0";
+        var value = 0;
+        var op = "=";
+
+        // On/Off Function
+        document.querySelector("#onoff").onclick = function(e) {
+            if (isOn) {
+                isOn = false;
+                display.value = "OFF";
+            }
+            else {
+                isOn = true;
+                valueRaw ="0";
+                display.value = 0;
+            }
+			this.blur();
+        }
+
+        // AC Button
+        document.querySelector("#ac").onclick = function() {
+            if(isOn) {
+                value = 0;
+                valueRaw ="0";
+                display.value = 0;
+                op = "=";
+            }
+			this.blur();
+        }
+
+        // Number buttons
+        var nums = document.querySelectorAll(".num");
+        for (var i=0; i<nums.length; i++) {
+            nums[i].onclick = function() {
+                if (isOn) {
+                    if (valueRaw == "0")
+                        valueRaw = this.innerHTML;
+                    else
+                        valueRaw += this.innerHTML;
+                    display.value = valueRaw;
+                }
+				this.blur();
+            }
+        }
+
+        // Decimal
+        document.querySelector("#dot").onclick = function() {
+            if (isOn) {
+                if (valueRaw.indexOf(".") == -1)
+                    valueRaw += this.innerHTML;
+                display.value = valueRaw;
+            }
+			this.blur();
+        }
+
+        // Operations
+        var ops = document.querySelectorAll(".op");
+        for (var i=0; i<ops.length; i++) {
+            ops[i].onclick = function() {
+                if (isOn) {
+                    var curr = parseFloat(display.value);
+                    value = calculate(curr, value, op);
+                    display.value = value;
+                    valueRaw = "0";
+                    if (this.innerHTML == "=" || isNaN(value)) {
+                        op = "="
+                        value = 0;
+                    }
+                    else
+                        op = this.innerHTML;
+                }
+				this.blur();
+            }
+        }
+
+        // Spacebar
+        document.onkeydown = function(event) {
+            if (event.code == "Space")
+				document.querySelector("#onoff").click();
+        }
+
+    </script>
+
+</body>
+</html>

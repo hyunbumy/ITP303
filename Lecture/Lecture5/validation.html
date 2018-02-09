@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lecture 04 - String Parsing</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		.clearfloat {
+			clear: both;
+		}
+
+		.container {
+			width: 600px;
+			margin: 50px auto;
+		}
+
+		#box {
+			width: 150px;
+			height: 150px;
+			line-height: 150px;
+			text-align: center;
+			font-size: 1.2em;
+			margin: auto;
+			background-color: #CCC;
+			border: 1px solid #000;
+
+			position: relative;
+			left: 0px;
+		}
+		.form-row {
+			margin-bottom: 10px;
+			/*background-color: red;*/
+		}
+		.error {
+			font-style: italic;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>Keyboard Events</h2>
+		<div id="box" tabindex="1">
+			Move Me
+		</div>
+
+		<h2 id="welcome-text">Hello!</h2>
+		<form id="signup-form" method="" action="">
+
+			<div class="form-row">
+				<label for="user-name-id">Name:</label>
+				<input type="text" id="user-name-id" name="user-name" placeholder="Tommy Trojan">
+				<span class="error"></span>
+			</div>
+
+			<div class="form-row">
+				<label for="email-id">Email:</label>
+				<input type="email" id="email-id" name="email" placeholder="ttrojan@usc.edu">
+				<span class="error"></span>
+			</div>
+			
+			<div class="form-row">
+				<label>Current Student?</label>
+				<input type="radio" name="current-student" id="current-student-yes" value="current-student-yes" checked>
+				<label for="current-student-yes">Yes</label>
+
+				<input type="radio" name="current-student" id="current-student-no" value="current-student-no">
+				<label for="current-student-no">No</label>
+			</div>
+			
+			<div class="form-row">
+				<label for="class-standing">Class Standing:</label>
+				<select id="class-standing" name="class-standing">
+					<option></option>
+					<option value="freshman">Freshman</option>
+					<option value="sophomore">Sophomore</option>
+					<option value="junior">Junior</option>
+					<option value="senior">Senior</option>
+				</select>
+			</div>
+
+			<div class="form-row" id="subscribe-row">
+				<label>Subscribe to:</label>
+				<input type="checkbox" name="sub-newsletters" id="sub-newsletters" value="sub-newsletters">
+				<label for="sub-newsletters">Newsletters</label>
+
+				<input type="checkbox" name="sub-events" id="sub-events" value="sub-events">
+				<label for="sub-events">Newsletters</label>
+
+				<input type="checkbox" name="sub-marketing" id="sub-marketing" value="sub-marketing">
+				<label for="sub-marketing">Marketing</label>
+				<span class="error"></span>
+			</div>
+
+			<div clas="form-row">
+				<button type="submit">Submit</button>
+				<button type="reset">Reset</button>
+			</div>
+
+		</form>
+	</div> <!-- .container -->
+
+	<script>
+		
+		// document.onkeydown = function() {
+		// 	console.log("onkeydown");
+		// }
+
+		// document.onkeyup = function() {
+		// 	console.log("onkeyup");
+		// }
+
+		// document.onkeypress = function() {
+		// 	console.log("onkeypress");
+		// }
+
+		document.querySelector("#box").onkeydown = function(e) {
+			//console.log("Box is pressed!!");
+			//console.log(e);
+
+			// this.style.left gets inline styles
+			//var currentLeft = this.style.left;
+
+			// This code gets us the actual properties of the box, not just inline
+			var currentLeft = getComputedStyle(this).getPropertyValue("left");
+			console.log(currentLeft);
+
+			// convert string into an integer
+			currentLeft = parseInt(currentLeft);
+			console.log(currentLeft);
+
+
+
+			if(e.code == "ArrowRight") {
+				console.log("Move right!!");
+				// JS can add numbers and strings and it'll become string
+				//this.style.left = currentLeft + "100px";
+				// "100100100px"
+				this.style.left = currentLeft + 100 + "px";
+			}
+			else if(e.code == "ArrowLeft") {
+				console.log("Move left!!!");
+				this.style.left = currentLeft - 100 + "px";
+				//this.style.left += 100 + "px";
+			}
+		}
+
+
+		document.querySelector("#user-name-id").oninput = function() {
+			//console.log(this.value);
+			document.querySelector("#welcome-text").innerHTML = "Hello " + this.value + "!";
+		}
+
+		document.querySelector("#email-id").onchange = function() {
+			//console.log(this.value);
+			// Check that the email address has an "@" sign
+			if(this.value.indexOf("@") == -1) {
+				// if you do NOT find the @ symbol
+				this.nextElementSibling.innerHTML = "Invalid email";
+				this.nextElementSibling.style.color = "red";
+
+			}
+			else {
+				// we found the @ symbol
+				this.nextElementSibling.innerHTML = "Valid Email!";
+				this.nextElementSibling.style.color = "green";
+				console.log(this.value.indexOf("@"));
+			}
+		}
+
+		document.querySelector("#current-student-no").onchange = function() {
+			document.querySelector("#class-standing").disabled = true;
+		}
+		document.querySelector("#current-student-yes").onchange = function() {
+			document.querySelector("#class-standing").disabled = false;
+		}
+		
+		document.querySelector("#signup-form").onsubmit = function() {
+			var isValid = true;
+
+			if( document.querySelector("#user-name-id").value.trim().length == 0 ) {
+				isValid = false;
+				document.querySelector("#user-name-id").nextElementSibling.innerHTML = "Name cannot be empty";
+				document.querySelector("#user-name-id").nextElementSibling.style.color = "red";
+			}
+
+			if( document.querySelectorAll("#subscribe-row input:checked").length == 0){
+				isValid = false;
+				document.querySelector("#subscribe-row .error").innerHTML = "Select at least one option.";
+				document.querySelector("#subscribe-row .error").style.color = "red";
+			}
+
+
+			return isValid;
+		}
+		
+
+	</script>
+
+</body>
+</html>

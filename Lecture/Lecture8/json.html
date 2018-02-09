@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>JSON, JSONP</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+
+	<style>
+	.table th, .table td {
+		text-align: center;
+		vertical-align: middle;
+	}
+</style>
+</head>
+<body>
+
+	<div class="container-fluid">
+
+		<div class="row">
+			<h1 class="col-12 mt-4">iTunes JSON API</h1>
+		</div> <!-- .row -->
+
+		<div class="row">
+
+			<form action="" method="" class="col-12" id="search-form">
+				<div class="form-row">
+
+					<div class="col-12 mt-4 col-sm-6 col-lg-4">
+						<label for="search-id" class="sr-only">Search:</label>
+						<input type="text" name="" class="form-control" id="search-id" placeholder="Search...">
+					</div>
+
+					<div class="col-12 mt-4 col-sm-4 col-md-3 col-lg-2">
+						<label for="limit-id" class="sr-only">Number of results:</label>
+						<select name="" class="form-control" id="limit-id">
+							<option value="5">5 results</option>
+							<option value="10">10 results</option>
+							<option value="25">25 results</option>
+							<option value="50">50 results</option>
+							<option value="100">100 results</option>
+						</select>
+					</div>
+
+					<div class="col-12 mt-4 col-sm-auto">
+						<button type="submit" class="btn btn-primary btn-block">Search</button>
+					</div>
+
+				</div> <!-- .form-row -->
+			</form>
+
+		</div> <!-- .row -->
+
+		<div class="row">
+
+			<div class="col-12 mt-4">
+				Showing <span id="num-results" class="font-weight-bold">0</span> result(s).
+			</div>
+
+			<table class="table table-responsive table-striped col-12 mt-3">
+				<thead>
+					<tr>
+						<th>Cover</th>
+						<th>Artist</th>
+						<th>Track</th>
+						<th>Album</th>
+						<th>Preview</th>
+					</tr>
+				</thead>
+				<tbody>
+                    <!-- This is our template -->
+					<!-- <tr>
+						<td><img src="http://is2.mzstatic.com/image/thumb/Music/v4/40/d0/29/40d029b5-4c32-53d2-69d1-ea04a513c345/source/100x100bb.jpg"></td>
+						<td>The Beatles</td>
+						<td>Here Comes the Sun</td>
+						<td>Abbey Road</td>
+						<td><audio src="https://audio-ssl.itunes.apple.com/apple-assets-us-std-000001/AudioPreview71/v4/46/48/7d/46487d90-d40c-7c47-7285-5edbfd0fd2c0/mzaf_5516723347634890825.plus.aac.p.m4a" controls></audio></td>
+					</tr> -->
+                    <!-- Create dynamically -->
+                    <!-- But could be done easier with backend? -->
+
+				</tbody>
+			</table>
+		</div> <!-- .row -->
+
+	</div> <!-- .container-fluid -->
+    <script>
+        // Notes
+        /*
+        JSON obj - all double quotes, no methods (but otherwise very similar to JS objects)
+        Same-origin policy - difficult to get resources from other domains
+            - Exception : <img> src, <link rel="stylesheet">href, <script> src
+        */
+
+        // Needs to happen before the json is loaded
+        // The callback() from JSONP is passing an JSON object
+        function callback(jsonObj) {
+            console.log("HEYYY");
+            console.log(jsonObj);
+            alert(jsonObj.name);
+        }
+        // This is called by the jsonp response
+        function itunesCallback(iResults) {
+            // Clear prev search
+            document.querySelector("tbody").innerHTML = "";     // Not a good practice (slow and stuff)
+            // Better way
+            var tbody = document.querySelector("tbody");
+            while(tbody.hasChildNodes()) {
+                tbody.removeChild(tbody.firstChild());
+            }
+
+            console.log("called back");
+            console.log(iResults);
+
+            // Parse thru the data
+            console.log(iResults.results[0].trackName);
+
+            // Update result #
+            document.querySelector("#num-results").innerHTML = iResults.resultCount;
+            // Build HTML elements to display our results
+            for (var i = 0; i<iResults.results.length; i++) {
+                // Create a <tr>
+                var row = document.createElement("tr");
+
+                // Create a cell for cover image
+                var coverCell = document.createElement("td");
+                var coverImg = document.createElement("img");
+                coverImg.src = iResults.results[i].artworkUrl100;
+                // Append this img tag inside the td tag
+                coverCell.appendChild(coverImg);
+
+                // Create a cell for artist
+                var artistCell = document.createElement("td");
+                artistCell.innerHTML = iResults.results[i].artistName;
+
+                // Create a cell for track
+                var trackCell = document.createElement("td");
+                trackCell.innerHTML = iResults.results[i].trackName;
+
+                // Create a cell for album
+                var albumCell = document.createElement("td");
+                albumCell.innerHTML = iResults.results[i].collectionName;
+
+                // Create a cell for the preview
+                var audioCell = document.createElement("td");
+                var audio = document.createElement("audio");
+                audio.src = iResults.results[i].previewUrl;
+                audio.controls = true;      // Audio button display
+                // Append
+                audioCell.appendChild(audio);
+
+                // Append <td> to <td>
+                // Order matters when appending (adding one by one)
+                row.appendChild(coverCell);
+                row.appendChild(artistCell);
+                row.appendChild(trackCell);
+                row.appendChild(albumCell);
+                row.appendChild(audioCell);
+
+                // Append <tr> to table
+                document.querySelector("tbody").appendChild(row);
+            }
+        }
+
+        // Allow user input
+        document.querySelector("#search-form").onsubmit = function() {
+            // Grab user input
+            var searchTerm = document.querySelector("#search-id").value.trim();
+            var resultLimit = document.querySelector("#limit-id").value;
+
+            // Create a script tag
+            var scriptTag = document.createElement("script");
+            scriptTag.src = "https://itunes.apple.com/search?term="
+                            + searchTerm + "&limit=" + resultLimit
+                            + "&callback=itunesCallback";
+
+            document.body.appendChild(scriptTag);
+
+            // Don't actually submit
+            return false;
+        }
+    </script>
+
+    <!-- Load JSON -->
+	<!--<script src="http://303.itpwebdev.com/~ta303/assets/data.json"></script> -->
+    <!-- JSONP calls a function (ie callback()) when the json file is loaded-->
+	<!--<script src="http://303.itpwebdev.com/~ta303/assets/data-padded.json"></script> -->
+    <!--<script src="https://itunes.apple.com/search?term=beatles&limit=10&callback=itunesCallback"></script>-->
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>New York Times Article</title>
+		<style>
+			#header {
+				background-color: green;
+				font-size: 40px;
+				/* A trick to vertically center single-lined text*/
+				height: 100px;
+				line-height: 100px;
+				text-align: center;
+				font-weight: bold;
+			}
+			#headline {
+				background-color: orange;
+				font-size: 32px;
+				font-weight: bold;
+				font-style: italic;
+				/* Not a good idea to set heights on divs*/
+				/*height: 50px;*/
+				/*padding-top: 10px;*/
+				/*padding-bottom: 10px;*/
+				/*padding: 10px; /*All four sides*/
+				padding: 10px 0px; /* first value is top/bottom , second value is left/right */
+				/*margin: 50px;*/
+
+			}
+			#author {
+				background-color: pink;
+				border-top: 1px solid gray;
+				border-bottom: 1px solid gray;
+				padding: 20px 0px;
+			}
+			#container {
+				width: 800px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			#article {
+				background-color: yellow;
+				width: 480px;
+				float: left;
+				padding-left: 20px;
+			}
+			#thumbnail {
+				background-color: purple;
+				width: 300px;
+				float: left;
+			}
+			#thumbnail img {
+				width: 100%;
+			}
+			#sidebar {
+				background-color: skyblue;
+				width: 300px;
+				float: left;
+			}
+			#footer {
+				background-color: red;
+			}
+			.clear {
+				clear: both;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+
+			<div id="header">
+				The New York Times
+			</div>
+
+			<div id="headline">
+				Facebook Overhauls News Feed to Focus on What Friends and Family Share.
+			</div>
+
+			<div id="author">
+				By MIKE ISAAC JAN. 11, 2018
+			</div>
+
+			<div id="article">
+				<img src="images/article1.jpg" style="width: 100%;" />
+
+				<p>SAN FRANCISCO — Facebook has introduced sweeping changes to the kinds of posts, videos and photos that its more than two billion members will see most often, saying on Thursday that it would prioritize what their friends and family share and comment on while de-emphasizing content from publishers and brands.</p>
+
+				<p>The shift is the most significant overhaul in years to Facebook’s News Feed, the cascading screen of content that people see when they log into the social network. Over the next few weeks, users will begin seeing fewer viral videos and news articles shared by media companies. Instead, Facebook will highlight posts that friends have interacted with — for example, a photo of your dog or a status update that many of them have commented on or liked.</p>
+
+				<p>The changes are intended to maximize the amount of content with “meaningful interaction” that people consume on Facebook, Mark Zuckerberg, the company’s chief executive, said in an interview. Facebook, he said, had closely studied what kinds of posts had stressed or harmed users. The social network wants to reduce what Mr. Zuckerberg called “passive content” — videos and articles that ask little more of the viewer than to sit back and watch or read — so that users’ time on the site was well spent.</p>
+
+				<p>“We want to make sure that our products are not just fun, but are good for people,” Mr. Zuckerberg said. “We need to refocus the system.”</p>
+
+				<p>Thursday’s changes raise questions of whether people may end up seeing more content that reinforces their own ideologies if they end up frequently interacting with posts and videos that reflect the similar views of their friends or family. And bogus news may still spread — if a relative or friend posts a link with an inaccurate news article that is widely commented on, that post will be prominently displayed.</p>
+
+				<div id="thumbnail">
+					<img src="images/article2.jpg"/>
+					<div id="caption">Caption here??????</div>
+				</div>
+
+				<p>The goal of the overhaul, ultimately, is for something less quantifiable that may be difficult to achieve: Facebook wants people to feel positive, rather than negative, after visiting.</p>
+
+				<p>“When people are engaging with people they’re close to, it’s more meaningful, more fulfilling,” said David Ginsberg, director of research at Facebook. “It’s good for your well-being.”</p>
+
+				<p>Facebook has been under fire for months over what it shows people and whether its site has negatively influenced millions of its users. The company has been dogged by questions about how its algorithms may have prioritized misleading news and misinformation in News Feeds, influencing the 2016 American presidential election as well as political discourse in many countries. Last year, Facebook disclosed that Russian agents had used the social network to spread divisive and inflammatory posts and ads to polarize the American electorate.</p>
+
+				<p>Those issues have landed Facebook in front of lawmakers, who have grilled the company about its influence last year. Next Wednesday, Facebook is set to appear at another hearing on Capitol Hill, along with Twitter and YouTube, about the online spread of extremist propaganda.</p>
+
+			</div> <!--//End of #article div -->
+
+			<div id="sidebar">
+				Related Articles
+				<ul>
+					<li>News1</li>
+					<li>News2</li>
+					<li>News3</li>
+				</ul>
+			</div>
+
+			<!-- "Clear" my float after #sidebar -->
+			<div class="clear"></div>
+
+			<div id="footer">
+				Copyright 2018.
+			</div>
+
+		</div>
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

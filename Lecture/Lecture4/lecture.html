@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lorem Ipsum</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="lecture.css">
+</head>
+<body>
+	<div class="section">
+		<h1>JS Playground</h1>
+	</div> <!-- .section -->
+
+	<div id="button-section" class="section">
+		<h2>Alert Window</h2>
+		<p>Test these buttons:</p>
+		<!-- Inline JS -->
+		<!-- <button id="btn-click" onclick="sayHello();">Don't Click Me</button> -->
+		<button id="btn-click">Don't Click Me</button>
+		<button id="btn-touch">Don't Touch Me</button>
+	</div> <!-- #button-section -->
+
+	<div id="kanye-section" class="section">
+		<h2>Image Switch</h2>
+		<p>Hover over the image to flip it:</p>
+		<img id="kanye" src="images/kanye-1.jpg" alt="Kanye West">
+	</div> <!-- #kanye-section -->
+
+	<div id="color-boxes" class="section">
+		<h2>Background Color Change</h2>
+		<p>Click on a square to change background color:</p>
+
+		<div id="color-wrapper">
+			<div class="color-box" id="box1">
+				#000
+			</div>
+			<div class="color-box" id="box2">
+				#FFF
+			</div>
+			<div class="color-box" id="box3">
+				#CCC
+			</div>
+			<div class="color-box" id="box4">
+				#777
+			</div>
+			<div class="color-box" id="box5">
+				#FC0
+			</div>
+			<div class="color-box" id="box6">
+				#900
+			</div>
+
+			<div class="clearfloat"></div>
+		</div> <!-- #color-wrapper -->
+	</div> <!-- #color-boxes -->
+
+	<div id="dom-section" class="section">
+		<h2>DOM Traversal</h2>
+
+		<h3>Lorem ipsum dolor sit amet</h3>
+
+		<p>Consectetur adipiscing elit. Proin nibh eros, tincidunt at metus non, ultrices vulputate felis. Suspendisse potenti. Vivamus sit amet cursus dolor, at lacinia dui. Pellentesque fringilla enim nibh, quis lobortis ante dictum vel. Etiam tortor turpis, venenatis sit amet est et, dictum auctor dolor. Etiam vehicula iaculis pharetra. Sed viverra interdum efficitur.</p>
+
+		<h3>Quisque volutpat eros ullamcorper</h3>
+		<p>Velit pulvinar, at tincidunt orci placerat. Morbi blandit neque est, id posuere urna accumsan non. Pellentesque a ligula sed velit elementum efficitur. Proin ex lectus, porta vitae accumsan ut, mattis ac ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam nec mauris tortor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed diam volutpat odio mollis accumsan. Proin tempus erat sed lacinia condimentum. Fusce molestie ornare finibus. Nunc dictum vulputate scelerisque. Donec elementum semper arcu, eget blandit magna varius et. Integer pulvinar sem non sem volutpat varius. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+
+		<h3>Nulla elit eros</h3>
+		<p>Interdum sed, finibus in nibh. Praesent eros lectus, fermentum at enim non, porta ultrices nisi. Aliquam odio libero, commodo id pulvinar eget, gravida non turpis. In mi massa, placerat ut ex sed, mollis imperdiet elit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi ultrices scelerisque fermentum. Quisque luctus sapien vitae dignissim ornare. Donec non lorem sagittis, condimentum augue vel, suscipit nisl. Praesent blandit eu ligula eu dictum. Donec faucibus purus in urna mollis, nec vulputate sem mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam vulputate dignissim libero, ut blandit massa ultrices et. Fusce mattis luctus nibh. Donec rhoncus pretium lectus id sodales.</p>
+
+	</div> <!-- #dom-section -->
+
+	<script>
+		/*
+		* Multi-line comments
+		*/
+
+		// Declare a function
+		//function sayHello() {
+			//alert("Hello World!!");
+			// more code her
+		//}
+
+		// Call a function
+		//sayHello();
+
+		// Better way to write JS
+		//document.getElementById("btn-click").onclick = sayHello;
+
+		// Even better way to write click this click event
+		document.getElementById("btn-click").onclick = function() {
+			alert("Hello World!");
+		}
+		document.getElementById("btn-touch").onmouseenter = function() {
+			alert("Don't touch me!!!");
+		}
+
+		// Write out messages to the console
+		console.log("hi there!");
+
+		console.log(   document.getElementById("btn-click")    );
+		console.log(   document.querySelector("#btn-click")    );
+		console.log(   document.querySelector(".color-box")    );
+		console.log(   document.querySelectorAll(".color-box")    );
+
+		document.querySelector("#btn-click").style.color = "red";
+
+
+		// Change kanye's image
+		document.querySelector("#kanye").onmouseenter = function() {
+			// Change the image 
+			//document.querySelector("#kanye").src = "images/kanye-2.jpg";
+			this.src = "images/kanye-2.jpg";
+		}
+		// Change kanye back
+		document.querySelector("#kanye").onmouseleave = function() {
+			//document.querySelector("#kanye").src = "images/kanye-1.jpg";
+			this.src = "images/kanye-1.jpg";
+		}
+
+		// Change background colors - the long way
+		// document.querySelector("#box1").onclick = function() {
+		// 	document.body.style.backgroundColor = "#000";
+		// }
+
+		// document.querySelector("#box2").onclick = function() {
+		// 	document.body.style.backgroundColor = "#FFF";
+		// }
+
+		// document.querySelector("#box3").onclick = function() {
+		// 	document.body.style.backgroundColor = "#ccc";
+		// }
+
+		// document.querySelector("#box4").onclick = function() {
+		// 	document.body.style.backgroundColor = "#777";
+		// }
+
+		// Change background color - the better way
+
+		console.log( document.querySelector("#box2").innerHTML );
+
+		console.log(document.querySelectorAll(".color-box"));
+
+		var boxes = document.querySelectorAll(".color-box");
+
+		for(var i = 0; i < boxes.length; i++) {
+			// console.log(boxes[i]);
+			boxes[i].onclick = function() {
+				//console.log(i);
+				//document.body.style.backgroundColor = "#000";
+				document.body.style.backgroundColor = this.innerHTML;
+			}
+		}
+
+
+		// DOM Traversal
+		var titles = document.querySelectorAll("#dom-section h3");
+
+		for(var i = 0; i < titles.length; i++) {
+			titles[i].onclick = function() {
+				// console.log( this.nextElementSibling );
+				//this.nextElementSibling.classList.add("hide");
+
+				// Toggle
+				if(this.nextElementSibling.classList.contains("hide")) {
+					this.nextElementSibling.classList.remove("hide");
+				}
+				else {
+					this.nextElementSibling.classList.add("hide");
+				}
+			}
+		}
+
+
+		
+
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
