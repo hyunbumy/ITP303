@@ -51,6 +51,10 @@
                 movie.appendChild(imgContainer);
                 movie.appendChild(caption);
                 res.appendChild(movie);
+
+                // Resize height according to width
+                var width = getComputedStyle(movie).getPropertyValue("width");
+                movie.style.height = (parseFloat(width)*8*1.52/7) + "px";
             }
         }
 
@@ -99,6 +103,15 @@
             document.body.appendChild(scriptTag);
 
             return false;
+        }
+
+        // Maintain the correct ratio for the image whenever window is resized
+        window.onresize = function() {
+            var movies = document.querySelectorAll(".movie");
+            for (var i = 0; i<movies.length; i++) {
+                var width = getComputedStyle(movies[i]).getPropertyValue("width");
+                movies[i].style.height = (parseFloat(width)*8*1.52/7) + "px";
+            }
         }
     </script>
     <script src="https://api.themoviedb.org/3/movie/now_playing?api_key=9b9c6d7d187bb3245215a1983f9db910&callback=dbCallback"></script>
