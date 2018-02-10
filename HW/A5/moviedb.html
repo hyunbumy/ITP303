@@ -3,76 +3,8 @@
 <head>
     <title>My Movie DB</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="style.css" />
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-    <style>
-        body {
-            background-color:#e6e6e6;
-        }
-        #search {
-            width:65%;
-            display:inline-block;
-        }
-        #search-info {
-            font-style:italic;
-        }
-        #results {
-            text-align:center;
-            margin-left:auto;
-            margin-right:auto;
-        }
-        .result-num {
-            font-weight:bold;
-        }
-        .movie {
-            width:50%;
-            height:254px;
-            margin-top:1em;
-            float:left;
-            text-align: center;
-        }
-        .movie .caption {
-            text-align: center;
-        }
-        .img-container {
-            margin-left: auto;
-            margin-right: auto;
-            width:80%;
-            height:70%;
-            position:relative;
-        }
-        .img-container:hover {
-            cursor:pointer;
-        }
-        .img-container:hover .mask {
-            visibility:visible;
-        }
-        .img-container .mask {
-            position:absolute;
-            background-color:black;
-            opacity:0.7;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            visibility:hidden;
-        }
-        .mask .info {
-            text-align:center;
-            color:white;
-            width:90%;
-            height:90%;
-            overflow:scroll;
-            word-wrap:break-word;
-            margin-top:0.5em;
-            margin-bottom:0;
-            margin-left: auto;
-            margin-right:auto;
-        }
-        .img-container img {
-            width:100%;
-            height:100%;
-        }
-    </style>
 </head>
 <body>
     <h1>Movie DB Search</h1>
@@ -83,16 +15,9 @@
     <div id="main">
         <span id="search-info">Showing <span class="result-num">0</span> of <span class="result-num">0</span> result(s)</span>
         <div id="results">
-            <div class="movie">
-                <div class="img-container">
-                    <img />
-                </div>
-                <div class="caption">
-
-                </div>
-            </div>
         </div>
     </div>
+    <div class="clear"></div>
     <script>
         function populate(queryRes) {
             var res = document.querySelector("#results");
@@ -109,19 +34,36 @@
                 image.src = "https://image.tmdb.org/t/p/w500"+curr.poster_path;
 
                 var mask = document.createElement("div");
-                //mask.innerHTML = "Rating asdfsdfasdfsadf";
                 mask.className = "mask";
+
+                var info = document.createElement("p");
+                info.className = "info";
+                info.innerHTML = "Rating: " + curr.vote_average + "<br /><br />";
+                info.innerHTML += checkLength(curr.overview);
 
                 var caption = document.createElement("div");
                 caption.innerHTML = curr.title + "<br />" + curr.release_date;
                 caption.className = "caption";
 
+                mask.appendChild(info);
                 imgContainer.appendChild(image);
                 imgContainer.appendChild(mask);
                 movie.appendChild(imgContainer);
                 movie.appendChild(caption);
                 res.appendChild(movie);
             }
+        }
+
+        function checkLength(summary) {
+            if (summary.length > 200)
+                return summary.substr(0,200) + "...";
+            return summary;
+        }
+
+        function clearSearch() {
+            var main = document.querySelector("#results");
+            while (main.firstElementChild != null)
+                main.firstElementChild.remove();
         }
 
         function updateDisplay(queryRes) {
@@ -132,38 +74,31 @@
 
         function dbCallback(dbResults) {
             console.log(dbResults);
+            // Remove previous results
+            clearSearch();
             // Update results info
             updateDisplay(dbResults);
-
             // Populate the results
-            //populate(dbResults);
-            var res = document.querySelector("#results");
-            var movie = document.createElement("div");
-            movie.className = "movie";
+            populate(dbResults);
+        }
 
-            var imgContainer = document.createElement("div");
-            imgContainer.className = "img-container";
+        // Search Movie
+        document.querySelector("#search-form").onsubmit = function() {
+            var term = document.querySelector("#search").value.trim();
+            if (term.length == 0)
+                return false;
 
-            var image = document.createElement("img");
-            image.src = "https://image.tmdb.org/t/p/w500"+dbResults.results[0].poster_path;
+            regEx = new RegExp(" ", "g");
+            term = term.replace(regEx, "+");
+            console.log(term);
+            var queryStr = "https://api.themoviedb.org/3/search/movie?api_key=9b9c6d7d187bb3245215a1983f9db910&callback=dbCallback&query=";
+            queryStr += term;
 
-            var mask = document.createElement("div");
-            mask.className = "mask";
+            var scriptTag = document.createElement("script");
+            scriptTag.src = queryStr;
+            document.body.appendChild(scriptTag);
 
-            var info = document.createElement("p");
-            info.className = "info";
-            info.innerHTML = "Rating and shitasdfasdfasdfasdfasdfasdfasdfasdfasdf";
-
-            var caption = document.createElement("div");
-            caption.innerHTML = dbResults.results[0].title + "<br />" + dbResults.results[0].release_date;
-            caption.className = "caption";
-
-            mask.appendChild(info);
-            imgContainer.appendChild(image);
-            imgContainer.appendChild(mask);
-            movie.appendChild(imgContainer);
-            movie.appendChild(caption);
-            res.appendChild(movie);
+            return false;
         }
     </script>
     <script src="https://api.themoviedb.org/3/movie/now_playing?api_key=9b9c6d7d187bb3245215a1983f9db910&callback=dbCallback"></script>

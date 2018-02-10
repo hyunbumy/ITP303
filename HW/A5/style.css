@@ -1,0 +1,118 @@
+body {
+    background-color:#e6e6e6;
+}
+#search {
+    width:65%;
+    display:inline-block;
+}
+#search-info {
+    font-style:italic;
+}
+#results {
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+.result-num {
+    font-weight:bold;
+}
+.movie {
+    width:150px;
+    height:260px;
+    margin-top:1em;
+    float:left;
+    text-align: center;
+}
+.movie .caption {
+    text-align: center;
+    width:100%;
+    height:30%;
+    word-wrap: break-word;
+}
+.img-container {
+    margin-left: auto;
+    margin-right: auto;
+    width:80%;
+    height:70%;
+    position:relative;
+}
+.img-container:hover {
+    cursor:pointer;
+}
+.img-container:hover .mask {
+    visibility:visible;
+}
+.img-container .mask {
+    position:absolute;
+    background-color:black;
+    opacity:0.8;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    visibility:hidden;
+}
+.mask .info {
+    text-align:center;
+    color:white;
+    width:90%;
+    height:90%;
+    overflow:scroll;
+    word-wrap:break-word;
+    margin-top:0.5em;
+    margin-bottom:0;
+    margin-left: auto;
+    margin-right:auto;
+}
+.img-container img {
+    width:100%;
+    height:100%;
+}
+.clear {
+    clear:both;
+}
+::-webkit-scrollbar {
+    display:none;
+}
+/* iPad vertical is 768px */
+@media (min-width: 768px) {
+    #search {
+        width:50%;
+    }
+    .movie {
+        width:188px;
+        height:330px;
+        margin-top:1em;
+        float:left;
+        text-align: center;
+    }
+}
+/* Small desktop starts at 992px */
+@media (min-width: 992px) {
+    #search {
+        width:30%;
+    }
+    .movie {
+        width:240px;
+        height:364px;
+        margin-top:1em;
+        float:left;
+        text-align: center;
+    }
+}
+/* Larger desktop starts around 1200px */
+@media (min-width: 1200px) {
+    body {
+        font-size:1.5em;
+    }
+    #search {
+        width:20%;
+    }
+    .movie {
+        width:290px;
+        height:440px;
+        margin-top:1em;
+        float:left;
+        text-align: center;
+    }
+}
